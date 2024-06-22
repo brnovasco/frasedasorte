@@ -1,4 +1,5 @@
-// Step 1: Create a function to convert a string into a number
+import { GAMES } from "./constants";
+
 function hashString(str: string): number {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -9,7 +10,6 @@ function hashString(str: string): number {
   return hash;
 }
 
-// Step 2: Create a function to generate a pseudo-random number based on a seed
 function pseudoRandom(seed: number): () => number {
   return () => {
     seed = Math.sin(seed) * 10000;
@@ -17,18 +17,44 @@ function pseudoRandom(seed: number): () => number {
   };
 }
 
-// Step 3: Create the main function
 export function generateNumbers({
   frase,
   n,
-  range,
+  rangeMin,
+  rangeMax,
 }: {
   frase: string;
   n: number;
-  range: number;
+  rangeMin: number;
+  rangeMax: number;
 }): number[] {
   const seed = hashString(frase);
   const random = pseudoRandom(seed);
-  const numbers = Array.from({ length: n }, () => Math.floor(random() * range));
+  const numbers = Array.from({ length: n }, () => {
+    const number = Math.floor(random() * (rangeMax - rangeMin + 1)) + rangeMin;
+    return number;
+  });
   return numbers;
+}
+
+// wrapper for generateNumbers based on the GAMES constant
+export function generateNumbersByGameName({
+  frase,
+  gameName,
+  additionalNumbers,
+}: {
+  frase: string;
+  gameName: string;
+  additionalNumbers: number;
+}): number[] {
+  const game = GAMES.find((game) => game.name === gameName);
+  if (!game) {
+    throw new Error(`Game not found: ${gameName}`);
+  }
+  return generateNumbers({
+    frase: frase,
+    n: game.listDefaultSize + additionalNumbers,
+    rangeMin: game.rangeMin,
+    rangeMax: game.rangeMax,
+  });
 }
