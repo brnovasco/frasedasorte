@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCallback, useState } from "react";
 import { generateNumbersByGameName } from "@/lib/generate-numbers";
-import { PlusIcon } from "lucide-react";
+import { CopyIcon, PlusIcon } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -32,6 +32,13 @@ export default function Novo() {
       );
     }
   }, [frase, gameName, numerosAdicionais]);
+
+  const copylink = useCallback(() => {
+    if (!numbers) return;
+    const copyableText = `
+    ${gameName} - ${frase}: ${numbers.join(", ")}`;
+    navigator.clipboard.writeText(copyableText);
+  }, [numbers, gameName, frase]);
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center">
@@ -69,10 +76,18 @@ export default function Novo() {
       </div>
       {numbers && (
         <div
-          className="flex flex-col w-5/6 lg:w-1/3 p-4 items-center gap-2"
+          className="flex flex-col w-5/6 lg:w-1/3 p-4 items-center gap-2 my-4"
           id="generated-numbers"
         >
-          <h2 className="text-xl font-semibold">Números gerados</h2>
+          <div className="flex flex-row gap-2">
+            <h2 className="text-2xl font-semibold">Números<span className="text-accent">DaSorte</span></h2>
+            <Button variant={`ghost`} size={"icon"} className="size-4" onClick={copylink}>
+              <CopyIcon />
+            </Button>
+          </div>
+          <p className="text-md text-gray-500 flex flex-wrap">
+            {gameName} - {frase}
+          </p>
           <div className="flex flex-wrap gap-2 justify-between">
             {numbers.map((number, index) => (
               <div key={index} className="text-xl">
@@ -82,17 +97,6 @@ export default function Novo() {
           </div>
         </div>
       )}
-
-      {/* <div className="flex flex-col w-5/6 lg:w-1/3 p-4 items-center gap-2" id="generated-numbers">
-        <h2 className="text-xl font-semibold">Números gerados</h2>
-        <div className="flex flex-wrap gap-2 justify-between">
-          {numbers?.map((number, index) => (
-            <div key={index} className="text-xl">
-              {number}
-            </div>
-          ))}
-        </div>
-      </div> */}
     </main>
   );
 }
