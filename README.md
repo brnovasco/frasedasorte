@@ -7,4 +7,6 @@
 - [x] share generated numbers
 - [ ] remember/forget generated numbers using localstorage
 - [ ] page to manage generated numbers
+- [ ] pwa
+- [ ] deploy to vercel
 
