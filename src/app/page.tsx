@@ -47,7 +47,14 @@ export default function Home() {
           <SelectTrigger>
             <SelectValue placeholder="Escolha o jogo" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent
+            // prevents propagating touch events to the parent
+            // https://github.com/shadcn-ui/ui/issues/486
+            ref={(ref) => {
+              if (!ref) return;
+              ref.ontouchstart = (e) => e.preventDefault();
+            }}
+          >
             <SelectGroup>
               {GAMES.map((game) => (
                 <SelectItem key={game.name} value={game.name}>
