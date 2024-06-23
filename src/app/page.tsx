@@ -22,7 +22,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-5xl font-bold my-4">
+      <h1 className="text-4xl font-bold my-4">
         Frase<span className="text-accent">DaSorte</span>
       </h1>
       <div
@@ -100,8 +100,6 @@ export default function Home() {
             className="p-2"
             onClick={() => {
               setNumbers(undefined);
-              setPhrase(undefined);
-              setGameName(undefined);
               setMoreNumbers(0);
             }}
           >
@@ -132,7 +130,7 @@ export default function Home() {
             <Button
               variant={`ghost`}
               size={"icon"}
-              className="size-4"
+              className="size-4 text-gray-500"
               onClick={() => {
                 if (!numbers) return;
                 const copyableText = `
