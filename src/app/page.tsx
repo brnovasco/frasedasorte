@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { db } from "@/lib/db";
 import { generateNumbersByGameName } from "@/lib/generate-numbers";
 import { CopyIcon, PlusIcon, Trash, TrashIcon } from "lucide-react";
 import {
@@ -19,6 +20,24 @@ export default function Home() {
   const [phrase, setPhrase] = useState<string | undefined>();
   const [moreNumbers, setMoreNumbers] = useState<number>(0);
   const [gameName, setGameName] = useState<GameName | undefined>();
+
+  async function saveToDb() {
+    if (!numbers) return;
+    if (!gameName) return;
+    if (!phrase) return;
+    try {
+      await db.games.add({
+        gameName,
+        moreNumbers,
+        numbers,
+        phrase,
+        createdAt: new Date(),
+      });
+      console.log("Saved to db");
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center">
@@ -95,7 +114,7 @@ export default function Home() {
             Gerar números
           </Button>
           <Button
-            variant={'destructive'}
+            variant={"destructive"}
             size={`icon`}
             className="p-2"
             onClick={() => {
@@ -143,6 +162,13 @@ export default function Home() {
               <CopyIcon />
             </Button>
           </div>
+          <Button
+            variant={`default`}
+            className="bg-accent text-white"
+            onClick={saveToDb}
+          >
+            Salvar
+          </Button>
         </div>
       )}
     </main>
