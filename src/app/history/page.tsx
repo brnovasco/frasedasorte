@@ -1,7 +1,9 @@
 "use client";
+import Image from "next/image";
 import { useLiveQuery } from "dexie-react-hooks";
-import { db, type GameStored } from "@/lib/db";
 import { CopyIcon, TrashIcon } from "lucide-react";
+import { db, type GameStored } from "@/lib/db";
+
 import {
   Card,
   CardContent,
@@ -19,8 +21,16 @@ export default function HistoryPage() {
   console.log(games);
   return (
     <div>
-      <h1>History</h1>
-      <p>This is the history page.</p>
+      <div className="w-full h-24 flex flex-col items-center justify-center mx-auto my-4 mt-24">
+        <Image
+          src={"/banner-transparent.png"}
+          alt="Fase da Sorte"
+          layout="intrinsic"
+          width={300}
+          height={100}
+        />
+      </div>
+      <h1 className="text-2xl text-center">Frases Salvas</h1>
       <div>
         {games?.map((game) => (
           <GameCard key={game.id} game={game} />
@@ -35,23 +45,32 @@ function GameCard({ game }: { game: GameStored }) {
   const { gameName, moreNumbers, numbers, phrase, createdAt } = game;
 
   async function deleteGame() {
-    console.log("deleting game", game.id);
-    await db.games.delete(game.id);
+    await db.games
+      .delete(game.id)
+      .finally(() => {
+        toast.success("Jogo deletado com sucesso!");
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("Erro ao deletar jogo!");
+      });
   }
 
   return (
-    <Card>
+    <Card className="m-4">
       <CardHeader>
-        <CardTitle>{gameName}</CardTitle>
+        <CardTitle>
+          {gameName} - {createdAt.toLocaleDateString()}
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <CardDescription>{phrase}</CardDescription>
-        <CardDescription>{createdAt.toLocaleDateString()}</CardDescription>
-        <CardDescription>{numbers}</CardDescription>
-        <CardDescription>{moreNumbers}</CardDescription>
+      <CardContent className="flex flex-col !py-0">
+        <CardDescription>{`Frase: "${phrase}"`}</CardDescription>
+        <CardDescription>{numbers.join(", ")}</CardDescription>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex justify-end mt-0">
         <Button
+          variant={"ghost"}
+          size={"icon"}
           onClick={() => {
             const copyableText = `
                 ${gameName} ${
@@ -62,7 +81,7 @@ function GameCard({ game }: { game: GameStored }) {
         >
           <CopyIcon className="max-w-4" />
         </Button>
-        <Button onClick={deleteGame}>
+        <Button variant={"ghost"} size={"icon"} onClick={deleteGame}>
           <TrashIcon className="max-w-4" />
         </Button>
       </CardFooter>
