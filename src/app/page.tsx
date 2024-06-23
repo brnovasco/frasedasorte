@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import Image from "next/image";
 import { db } from "@/lib/db";
 import { generateNumbersByGameName } from "@/lib/generate-numbers";
 import { CopyIcon, PlusIcon, Trash, TrashIcon } from "lucide-react";
@@ -14,7 +15,7 @@ import {
 } from "@/components/ui/select";
 import { GAMES, type GameName } from "@/lib/constants";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 export default function Home() {
   const [numbers, setNumbers] = useState<number[] | undefined>();
@@ -44,9 +45,24 @@ export default function Home() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold my-4">
-        Frase<span className="text-accent">DaSorte</span>
-      </h1>
+      <div className="w-full h-24 flex flex-col items-center justify-center mx-auto my-4">
+        <Image
+          src={"/icon_transparent.png"}
+          alt="Fase da Sorte"
+          layout="intrinsic"
+          width={100}
+          height={100}
+        />
+      </div>
+      <div className="w-full h-24 flex flex-col items-center justify-center mx-auto my-4">
+        <Image
+          src={"/banner-transparent.png"}
+          alt="Fase da Sorte"
+          layout="intrinsic"
+          width={300}
+          height={100}
+        />
+      </div>
       <div
         className="items-center px-4 py-6 justify-center flex flex-col gap-2 w-5/6 lg:w-1/3"
         id="create-numbers"
