@@ -18,17 +18,17 @@ function pseudoRandom(seed: number): () => number {
 }
 
 export function generateNumbers({
-  frase,
+  phrase,
   n,
   rangeMin,
   rangeMax,
 }: {
-  frase: string;
+  phrase: string;
   n: number;
   rangeMin: number;
   rangeMax: number;
 }): number[] {
-  const seed = hashString(frase);
+  const seed = hashString(phrase);
   const random = pseudoRandom(seed);
   const numbers = Array.from({ length: n }, () => {
     const number = Math.floor(random() * (rangeMax - rangeMin + 1)) + rangeMin;
@@ -39,21 +39,21 @@ export function generateNumbers({
 
 // wrapper for generateNumbers based on the GAMES constant
 export function generateNumbersByGameName({
-  frase,
+  phrase,
   gameName,
-  additionalNumbers,
+  moreNumbers,
 }: {
-  frase: string;
+  phrase: string;
   gameName: string;
-  additionalNumbers: number;
+  moreNumbers: number;
 }): number[] {
   const game = GAMES.find((game) => game.name === gameName);
   if (!game) {
     throw new Error(`Game not found: ${gameName}`);
   }
   return generateNumbers({
-    frase: frase,
-    n: game.listDefaultSize + additionalNumbers,
+    phrase: phrase,
+    n: game.listDefaultSize + moreNumbers,
     rangeMin: game.rangeMin,
     rangeMax: game.rangeMax,
   });
