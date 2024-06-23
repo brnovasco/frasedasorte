@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { generateNumbersByGameName } from "@/lib/generate-numbers";
-import { CopyIcon, PlusIcon } from "lucide-react";
+import { CopyIcon, PlusIcon, Trash, TrashIcon } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -67,18 +67,19 @@ export default function Home() {
         <div className="flex flex-row gap-2 w-full">
           <Button
             size={`icon`}
-            variant={`default`}
+            variant={`secondary`}
             className="p-2 gap-1"
             onClick={() => {
               setMoreNumbers(moreNumbers + 1);
               setNumbers(undefined);
             }}
           >
-            <PlusIcon className="min-w-3" />
+            <PlusIcon className="min-w-3 max-w-4" />
             {moreNumbers > 0 && <span className="text-sm">{moreNumbers}</span>}
           </Button>
           <Button
             variant={`default`}
+            className="bg-accent w-full p-2 text-white"
             onClick={() => {
               if (phrase && gameName) {
                 setNumbers(
@@ -90,9 +91,21 @@ export default function Home() {
                 );
               }
             }}
-            className="w-full"
           >
             Gerar números
+          </Button>
+          <Button
+            variant={'destructive'}
+            size={`icon`}
+            className="p-2"
+            onClick={() => {
+              setNumbers(undefined);
+              setPhrase(undefined);
+              setGameName(undefined);
+              setMoreNumbers(0);
+            }}
+          >
+            <TrashIcon className="max-w-4" />
           </Button>
         </div>
       </div>
