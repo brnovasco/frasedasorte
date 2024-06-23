@@ -1,10 +1,10 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import Image from "next/image";
 import { db } from "@/lib/db";
 import { generateNumbersByGameName } from "@/lib/generate-numbers";
-import { CopyIcon, PlusIcon, Trash, TrashIcon } from "lucide-react";
+import { CopyIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
