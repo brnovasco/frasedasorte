@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { GAMES, type GameName } from "@/lib/constants";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner"
 
 export default function Home() {
   const [numbers, setNumbers] = useState<number[] | undefined>();
@@ -25,6 +26,7 @@ export default function Home() {
     if (!numbers) return;
     if (!gameName) return;
     if (!phrase) return;
+    toast.info("Salvando...");
     try {
       await db.games.add({
         gameName,
@@ -33,9 +35,10 @@ export default function Home() {
         phrase,
         createdAt: new Date(),
       });
-      console.log("Saved to db");
+      toast.success("Salvo com sucesso!");
     } catch (error) {
       console.error(error);
+      toast.error("Erro ao salvar!");
     }
   }
 
