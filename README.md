@@ -8,7 +8,8 @@
 - [?] pwa
 - [x] deploy to vercel
 - [x] save results to indexeddb
-- [ ] list and manage saved results in new page
-- [ ] view results in new page, animate numbers as balls falling from the top
+- [x] list and manage saved results in new page
+- [ ] view results in new page
+- [ ] animate results view numbers as balls falling from the top
 
 
