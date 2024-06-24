@@ -28,13 +28,20 @@ export function generateNumbers({
   rangeMin: number;
   rangeMax: number;
 }): number[] {
+  if (rangeMax - rangeMin + 1 < n) {
+    throw new Error("Range is too small for the number of unique numbers requested.");
+  }
+
   const seed = hashString(phrase);
   const random = pseudoRandom(seed);
-  const numbers = Array.from({ length: n }, () => {
+  const numbersSet = new Set<number>();
+
+  while (numbersSet.size < n) {
     const number = Math.floor(random() * (rangeMax - rangeMin + 1)) + rangeMin;
-    return number;
-  });
-  return numbers;
+    numbersSet.add(number);
+  }
+
+  return Array.from(numbersSet);
 }
 
 // wrapper for generateNumbers based on the GAMES constant
