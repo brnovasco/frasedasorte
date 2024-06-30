@@ -62,7 +62,7 @@ export function GameTicketDialog({
 
   return (
     <Dialog open={open && !!ticket} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="w-5/6 lg:w-1/3">
         <DialogHeader>
           <DialogTitle className="text-2xl font-semibold">
             Números<span className="text-accent">DaSorte</span>
