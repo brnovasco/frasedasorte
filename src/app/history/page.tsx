@@ -51,7 +51,7 @@ function GameCard({ game }: { game: GameStored }) {
     <Card className="m-4">
       <CardHeader>
         <CardTitle>
-          {gameName} - {createdAt.toLocaleDateString()}
+          {gameName}{moreNumbers > 0 ? ` (+${moreNumbers}) -` : " - "}{createdAt.toLocaleDateString()}
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col !py-0">
