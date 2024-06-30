@@ -41,7 +41,7 @@ export function generateNumbers({
     numbersSet.add(number);
   }
 
-  return Array.from(numbersSet);
+  return Array.from(numbersSet).sort((a, b) => a - b);
 }
 
 // wrapper for generateNumbers based on the GAMES constant
