@@ -8,6 +8,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+const links = [
+  { href: "/", label: "Nova Frase" },
+  { href: "/history", label: "Histórico" },
+];
+
 export default function AppMenu() {
   return (
     <DropdownMenu>
@@ -16,12 +21,11 @@ export default function AppMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>Menu</DropdownMenuLabel>
-        <DropdownMenuItem>
-          <Link href="/">Nova Frase</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Link href="/history">Histórico</Link>
-        </DropdownMenuItem>
+        {links.map((link) => (
+          <Link key={link.href} href={link.href}>
+            <DropdownMenuItem>{link.label}</DropdownMenuItem>
+          </Link>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

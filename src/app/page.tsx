@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import Image from "next/image";
 import { db } from "@/lib/db";
 import { generateNumbersByGameName } from "@/lib/generate-numbers";
 import { CopyIcon, PlusIcon, TrashIcon } from "lucide-react";
@@ -13,58 +12,41 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  GameTicketDialog,
+  type GameTicket,
+} from "@/components/game-ticket-dialog";
 import { GAMES, type GameName } from "@/lib/constants";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
 
 export default function Home() {
-  const [numbers, setNumbers] = useState<number[] | undefined>();
   const [phrase, setPhrase] = useState<string | undefined>();
   const [moreNumbers, setMoreNumbers] = useState<number>(0);
   const [gameName, setGameName] = useState<GameName | undefined>();
-
-  async function saveToDb() {
-    if (!numbers) return;
-    if (!gameName) return;
-    if (!phrase) return;
-    toast.info("Salvando...");
-    try {
-      await db.games.add({
-        gameName,
-        moreNumbers,
-        numbers,
-        phrase,
-        createdAt: new Date(),
-      });
-      toast.success("Salvo com sucesso!");
-    } catch (error) {
-      console.error(error);
-      toast.error("Erro ao salvar!");
-    }
-  }
+  const [ticket, setTicket] = useState<GameTicket | undefined>();
+  const [openDialog, setOpendialog] = useState(false);
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center">
-      <div className="w-full h-24 flex flex-col items-center justify-center mx-auto my-4">
-        <Image
-          src={"/icon_transparent.png"}
-          alt="Fase da Sorte"
-          layout="intrinsic"
-          width={100}
-          height={100}
-        />
-      </div>
-      <div className="w-full h-24 flex flex-col items-center justify-center mx-auto my-4">
-        <Image
-          src={"/banner-transparent.png"}
-          alt="Fase da Sorte"
-          layout="intrinsic"
-          width={300}
-          height={100}
-        />
-      </div>
+    <main className="flex flex-col my-auto h-1/2 items-center justify-center">
+      <GameTicketDialog
+        ticket={ticket}
+        open={openDialog}
+        onOpenChange={() => {
+          setOpendialog(!openDialog);
+          setTicket(undefined);
+        }}
+      />
       <div
-        className="items-center px-4 py-6 justify-center flex flex-col gap-2 w-5/6 lg:w-1/3"
+        className="items-center px-4 justify-center flex flex-col gap-2 w-5/6 lg:w-1/3"
         id="create-numbers"
       >
         <Textarea
@@ -72,13 +54,11 @@ export default function Home() {
           placeholder="Digite sua frase da sorte"
           onChange={(e) => {
             setPhrase(e.target.value);
-            setNumbers(undefined);
           }}
         />
         <Select
           onValueChange={(value) => {
             setGameName(value as GameName);
-            setNumbers(undefined);
           }}
           value={gameName}
         >
@@ -109,7 +89,6 @@ export default function Home() {
             className="p-2 gap-1"
             onClick={() => {
               setMoreNumbers(moreNumbers + 1);
-              setNumbers(undefined);
             }}
           >
             <PlusIcon className="min-w-3 max-w-4" />
@@ -120,24 +99,29 @@ export default function Home() {
             className="bg-accent w-full p-2 text-white"
             onClick={() => {
               if (phrase && gameName) {
-                setNumbers(
-                  generateNumbersByGameName({
-                    phrase,
-                    gameName,
-                    moreNumbers,
-                  })
-                );
+                const generatedNumbers = generateNumbersByGameName({
+                  phrase,
+                  gameName,
+                  moreNumbers,
+                });
+                setTicket({
+                  gameName,
+                  moreNumbers,
+                  generatedNumbers,
+                  phrase,
+                });
+                setOpendialog(true);
               }
             }}
           >
             Gerar números
           </Button>
+
           <Button
             variant={"destructive"}
             size={`icon`}
             className="p-2"
             onClick={() => {
-              setNumbers(undefined);
               setMoreNumbers(0);
             }}
           >
@@ -145,51 +129,6 @@ export default function Home() {
           </Button>
         </div>
       </div>
-      {numbers && (
-        <div
-          className="flex flex-col w-5/6 lg:w-1/3 p-4 items-center gap-2 my-4"
-          id="generated-numbers"
-        >
-          <div className="flex flex-row gap-2">
-            <h2 className="text-2xl font-semibold">
-              Números<span className="text-accent">DaSorte</span>
-            </h2>
-          </div>
-          <p className="text-md text-gray-500">
-            {gameName} {moreNumbers > 0 ? `(+${moreNumbers})` : ""}
-          </p>
-          <p className="text-md text-gray-500 flex flex-wrap">{`"${phrase}"`}</p>
-          <div className="flex flex-wrap gap-2 justify-between">
-            {numbers.map((number, index) => (
-              <div key={index} className="text-xl">
-                {number}
-              </div>
-            ))}
-            <Button
-              variant={`ghost`}
-              size={"icon"}
-              className="size-4 text-gray-500"
-              onClick={() => {
-                if (!numbers) return;
-                const copyableText = `
-                ${gameName} ${
-                  moreNumbers > 0 ? `(+${moreNumbers})` : ""
-                } - "${phrase}" - ${numbers.join(", ")}`;
-                navigator.clipboard.writeText(copyableText);
-              }}
-            >
-              <CopyIcon />
-            </Button>
-          </div>
-          <Button
-            variant={`default`}
-            className="bg-accent text-white"
-            onClick={saveToDb}
-          >
-            Salvar
-          </Button>
-        </div>
-      )}
     </main>
   );
 }
