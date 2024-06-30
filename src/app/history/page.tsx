@@ -21,15 +21,6 @@ export default function HistoryPage() {
   console.log(games);
   return (
     <div>
-      <div className="w-full h-24 flex flex-col items-center justify-center mx-auto my-4 mt-24">
-        <Image
-          src={"/banner-transparent.png"}
-          alt="Fase da Sorte"
-          layout="intrinsic"
-          width={300}
-          height={100}
-        />
-      </div>
       <h1 className="text-2xl text-center">Frases Salvas</h1>
       <div>
         {games?.map((game) => (
