@@ -11,7 +11,7 @@ const patrickHand = Patrick_Hand({ subsets: ["latin"], weight: "400" });
 export const metadata: Metadata = {
   title: "FraseDaSorte",
   description:
-    "Gerador de sequência de números aleatóris à partir de uma frase",
+    "Gerador de sequência de números aleatórios à partir de uma frase.",
 };
 
 export default function RootLayout({
