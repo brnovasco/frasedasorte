@@ -80,6 +80,7 @@ export function GameTicketDialog({
             {numberListVisible.map((number, index) => (
               <span key={index} className="text-xl">
                 {number}
+                {index < numberListVisible.length - 1 ? "," : ""}
               </span>
             ))}
             {generatedNumbers.length > 15 && (
