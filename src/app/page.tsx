@@ -21,7 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 export default function Home() {
   const [phrase, setPhrase] = useState<string | undefined>();
   const [moreNumbers, setMoreNumbers] = useState<number>(0);
-  const [gameName, setGameName] = useState<GameName | undefined>();
+  const [gameName, setGameName] = useState<GameName | undefined>("mega-sena");
   const [ticket, setTicket] = useState<GameTicket | undefined>();
   const [openDialog, setOpendialog] = useState(false);
 
