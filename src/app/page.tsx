@@ -40,7 +40,7 @@ export default function Home() {
         id="create-numbers"
       >
         <Textarea
-          className="h-32 border-none text-2xl text-center shadow-none focus-visible:border-none"
+          className="h-32 border-none text-2xl text-center shadow-none focus-visible:ring-transparent"
           placeholder="Digite sua frase da sorte aqui..."
           onChange={(e) => {
             setPhrase(e.target.value);
