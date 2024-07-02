@@ -135,6 +135,11 @@ function GameNumbersGrid({
     { length: params.rangeMax - params.rangeMin + 1 },
     (_, index) => index + params.rangeMin
   );
+  //if there is a number 0, place it at the end of the array
+  if (Allnumbers.includes(0)) {
+    Allnumbers.splice(Allnumbers.indexOf(0), 1);
+    Allnumbers.push(0);
+  }
 
   return (
     <ScrollArea className="w-full h-fit">
