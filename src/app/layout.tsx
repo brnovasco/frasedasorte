@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Patrick_Hand } from "next/font/google";
 import "./globals.css";
 import Image from "next/image";
 import AppMenu from "@/components/app-menu";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+const patrickHand = Patrick_Hand({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
   title: "FraseDaSorte",
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "h-screen")}>
+      <body className={cn(patrickHand.className, "h-screen")}>
         <div className="flex flex-row justify-end p-4">
           <AppMenu />
         </div>

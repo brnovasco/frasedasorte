@@ -51,7 +51,7 @@ function MarkedNumber({
   return (
     <motion.button
       className={cn(
-        "relative text-white gap-1 m-1 text-3xl font-extrabold",
+        "relative gap-1 mx-1 -my-1 text-3xl font-extrabold hover:!bg-transparent",
         buttonVariants({ variant: "ghost", size: "icon" }),
         className
       )}
@@ -100,7 +100,7 @@ function UnmarkedNumber({
   return (
     <button
       className={cn(
-        "text-white gap-1 text-3xl m-1 font-extrabold",
+        "gap-1 text-3xl mx-1 -my-1 font-extrabold",
         buttonVariants({ variant: "ghost", size: "icon" }),
         className
       )}

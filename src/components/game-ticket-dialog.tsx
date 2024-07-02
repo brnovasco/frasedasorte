@@ -23,7 +23,7 @@ export type GameTicket = {
 
 export function GameTicketDialog({
   ticket,
-  open, 
+  open,
   onOpenChange,
 }: {
   ticket: GameTicket | undefined;
@@ -60,25 +60,31 @@ export function GameTicketDialog({
     throw new Error(`Game ${gameName} not found`);
   }
 
+  // show only the first 15 numbers if the list is too long
+  const numberListVisible = generatedNumbers.slice(0, 15);
+
   return (
     <Dialog open={open && !!ticket} onOpenChange={onOpenChange}>
-      <DialogContent className="w-5/6 lg:w-1/3">
+      <DialogContent className="w-5/6 lg:w-1/3 flex flex-col justify-between">
         <DialogHeader>
           <DialogTitle className="text-2xl font-semibold">
             Números<span className="text-accent">DaSorte</span>
           </DialogTitle>
         </DialogHeader>
         <DialogDescription className="flex flex-col items-center gap-2">
-          <p className="text-lg text-gray-500">
+          <p className="text-lg text-gray-800">
             {gameName} {moreNumbers > 0 ? `(+${moreNumbers})` : ""}
           </p>
-          <p className="text-lg text-gray-200 flex flex-wrap">{`"${phrase}"`}</p>
-          <div className="flex text-accent flex-wrap gap-2 justify-between">
-            {generatedNumbers.map((number, index) => (
-              <div key={index} className="text-xl">
+          <p className="text-lg text-gray-500 flex flex-wrap">{`"${phrase}"`}</p>
+          <div className="flex text-accent flex-wrap gap-1 justify-between">
+            {numberListVisible.map((number, index) => (
+              <span key={index} className="text-xl">
                 {number}
-              </div>
+              </span>
             ))}
+            {generatedNumbers.length > 15 && (
+              <span className="text-xl mx-1">...</span>
+            )}
             <Button
               variant={`ghost`}
               size={"icon"}
@@ -99,7 +105,7 @@ export function GameTicketDialog({
         <DialogFooter className="flex flex-row justify-between">
           <Button
             variant={`default`}
-            className="bg-accent text-white"
+            className="bg-accent text-white w-full"
             onClick={saveToDb}
           >
             Salvar
@@ -130,7 +136,7 @@ function GameNumbersGrid({
   );
 
   return (
-    <ScrollArea className="w-full h-72">
+    <ScrollArea className="w-full h-fit">
       <div className="grid grid-cols-6">
         {Allnumbers.map((number) => (
           <AnimatedNumber

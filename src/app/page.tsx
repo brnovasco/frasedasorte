@@ -50,8 +50,8 @@ export default function Home() {
         id="create-numbers"
       >
         <Textarea
-          className="h-24"
-          placeholder="Digite sua frase da sorte"
+          className="h-32 border-none text-2xl text-center shadow-none focus-visible:border-none"
+          placeholder="Digite sua frase da sorte aqui..."
           onChange={(e) => {
             setPhrase(e.target.value);
           }}
@@ -86,7 +86,7 @@ export default function Home() {
           <Button
             size={`icon`}
             variant={`secondary`}
-            className="p-2 gap-1"
+            className="p-2 gap-1 text-white"
             onClick={() => {
               setMoreNumbers(moreNumbers + 1);
             }}
