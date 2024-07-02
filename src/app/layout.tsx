@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Patrick_Hand } from "next/font/google";
 import "./globals.css";
-import Image from "next/image";
+import { AnimatedTitle } from "@/components/animated-title";
 import AppMenu from "@/components/app-menu";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
@@ -26,13 +26,7 @@ export default function RootLayout({
           <AppMenu />
         </div>
         <div className="w-full h-24 flex flex-row items-center justify-center my-10">
-          <Image
-            src={"/banner-transparent.png"}
-            alt="Fase da Sorte"
-            layout="intrinsic"
-            width={300}
-            height={100}
-          />
+          <AnimatedTitle />
         </div>
         {children}
         <Toaster />

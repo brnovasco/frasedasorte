@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
-import { db } from "@/lib/db";
 import { generateNumbersByGameName } from "@/lib/generate-numbers";
-import { CopyIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { PlusIcon, TrashIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -12,15 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import {
   GameTicketDialog,
   type GameTicket,
