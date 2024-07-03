@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
 import { generateNumbersByGameName } from "@/lib/generate-numbers";
-import { PlusIcon, TrashIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { PlusIcon, PenIcon } from "lucide-react";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Select,
+  SelectLabel,
   SelectContent,
   SelectGroup,
   SelectItem,
@@ -17,6 +18,8 @@ import {
 } from "@/components/game-ticket-dialog";
 import { GAMES, type GameName } from "@/lib/constants";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
 
 export default function Home() {
   const [phrase, setPhrase] = useState<string | undefined>();
@@ -26,7 +29,7 @@ export default function Home() {
   const [openDialog, setOpendialog] = useState(false);
 
   return (
-    <main className="flex flex-col my-auto h-1/2 items-center justify-center">
+    <main className="flex flex-col my-auto items-center justify-between">
       <GameTicketDialog
         ticket={ticket}
         open={openDialog}
@@ -39,44 +42,67 @@ export default function Home() {
         className="items-center px-4 justify-center flex flex-col gap-2 w-5/6 lg:w-1/3"
         id="create-numbers"
       >
+        <Label htmlFor="input-frase" className="sr-only">
+          Clique para digitar ou colar sua frase da sorte
+        </Label>
+        <Label htmlFor="input-frase">
+          <PenIcon />
+        </Label>
         <Textarea
+          id="input-frase"
           className="h-32 border-none text-2xl text-center shadow-none focus-visible:ring-transparent"
-          placeholder="Digite sua frase da sorte aqui..."
+          placeholder={"Digite sua frase da sorte aqui..."}
           onChange={(e) => {
             setPhrase(e.target.value);
+            if (moreNumbers > 0) setMoreNumbers(0);
           }}
         />
-        <Select
-          onValueChange={(value) => {
-            setGameName(value as GameName);
-          }}
-          value={gameName}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Escolha o jogo" />
-          </SelectTrigger>
-          <SelectContent
-            // prevents propagating touch events to the parent
-            // https://github.com/shadcn-ui/ui/issues/486
-            ref={(ref) => {
-              if (!ref) return;
-              ref.ontouchstart = (e) => e.preventDefault();
+        <div className="absolute bottom-10 flex flex-row gap-1 my-auto">
+          <Select
+            onValueChange={(value) => {
+              setGameName(value as GameName);
             }}
+            value={gameName}
           >
-            <SelectGroup>
-              {GAMES.map((game) => (
-                <SelectItem key={game.name} value={game.name}>
-                  {game.name}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-        <div className="flex flex-row gap-2 w-full">
+            <SelectTrigger
+              className={cn(
+                buttonVariants({ variant: "secondary" }),
+                "h-12 w-28"
+              )}
+            >
+              <SelectValue placeholder="Escolha o jogo" />
+            </SelectTrigger>
+            <SelectContent
+              className="bg-secondary"
+              // prevents propagating touch events to the parent
+              // https://github.com/shadcn-ui/ui/issues/486
+              ref={(ref) => {
+                if (!ref) return;
+                ref.ontouchstart = (e) => e.preventDefault();
+                // reset the add numbers value
+                setMoreNumbers(0);
+              }}
+            >
+              <SelectGroup>
+                <SelectLabel className="text-primary-foreground">
+                  Escolha o tipo de jogo
+                </SelectLabel>
+                {GAMES.map((game) => (
+                  <SelectItem key={game.name} value={game.name}>
+                    {game.name}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Label htmlFor="add-more-numbers" className="sr-only">
+            Clique para adicionar mais números ao jogo do que a quantidade
+            padrão
+          </Label>
           <Button
-            size={`icon`}
+            id={"add-more-numbers"}
             variant={`secondary`}
-            className="p-2 gap-1 text-white"
+            className="p-2 gap-1 h-12"
             onClick={() => {
               setMoreNumbers(moreNumbers + 1);
             }}
@@ -84,9 +110,13 @@ export default function Home() {
             <PlusIcon className="min-w-3 max-w-4" />
             {moreNumbers > 0 && <span className="text-sm">{moreNumbers}</span>}
           </Button>
+          <Label htmlFor="generate-numbers" className="sr-only">
+            Clique para gerar os números da sorte
+          </Label>
           <Button
+            id={"generate-numbers"}
             variant={`default`}
-            className="bg-accent w-full p-2 text-white"
+            className="bg-accent h-12 w-28 p-2 text-white"
             onClick={() => {
               if (phrase && gameName) {
                 const generatedNumbers = generateNumbersByGameName({
@@ -105,17 +135,6 @@ export default function Home() {
             }}
           >
             Gerar números
-          </Button>
-
-          <Button
-            variant={"destructive"}
-            size={`icon`}
-            className="p-2"
-            onClick={() => {
-              setMoreNumbers(0);
-            }}
-          >
-            <TrashIcon className="max-w-4" />
           </Button>
         </div>
       </div>
