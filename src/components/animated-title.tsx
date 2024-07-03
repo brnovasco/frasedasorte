@@ -40,7 +40,7 @@ export function AnimatedTitle() {
     <motion.button
       className={cn(
         buttonVariants({ variant: "ghost" }),
-        "mx-1 -my-1 hover:!bg-transparent h-fit focus-visible:text-accent"
+        "hover:!bg-transparent h-fit focus-visible:text-accent"
       )}
       onClick={resetAnimation}
     >
