@@ -21,11 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(patrickHand.className, "h-screen")}>
+      <body className={cn(patrickHand.className, "h-screen flex flex-col")}>
         <div className="flex flex-row justify-end p-4">
           <AppMenu />
         </div>
-        <div className="w-full h-24 flex flex-row items-center justify-center my-10">
+        <div className="w-full flex flex-row items-center justify-center">
           <AnimatedTitle />
         </div>
         {children}
