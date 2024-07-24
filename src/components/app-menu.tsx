@@ -19,7 +19,7 @@ export default function AppMenu() {
       <DropdownMenuTrigger>
         <MenuIcon size={24} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent className="bg-secondary">
         <DropdownMenuLabel>Menu</DropdownMenuLabel>
         {links.map((link) => (
           <Link key={link.href} href={link.href}>

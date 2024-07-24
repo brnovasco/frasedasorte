@@ -21,15 +21,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(patrickHand.className, "h-screen flex flex-col")}>
+      <body
+        className={cn(
+          patrickHand.className,
+          "min-h-[100dva] grid grid-rows-[auto_auto_1fr] w-full"
+        )}
+      >
         <div className="flex flex-row justify-end p-4">
           <AppMenu />
         </div>
-        <div className="w-full flex flex-row items-center justify-center">
+        <div className="flex justify-center">
           <AnimatedTitle />
         </div>
-        {children}
-        <Toaster />
+        <div className="h-full flex justify-center">
+          <Toaster />
+          {children}
+        </div>
       </body>
     </html>
   );

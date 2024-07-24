@@ -29,7 +29,7 @@ export default function Home() {
   const [openDialog, setOpendialog] = useState(false);
 
   return (
-    <main className="flex flex-col my-auto items-center justify-between">
+    <main className="px-4 w-5/6 lg:w-1/3 h-full">
       <GameTicketDialog
         ticket={ticket}
         open={openDialog}
@@ -38,26 +38,28 @@ export default function Home() {
           setTicket(undefined);
         }}
       />
-      <div
-        className="items-center px-4 justify-center flex flex-col gap-2 w-5/6 lg:w-1/3"
-        id="create-numbers"
-      >
-        <Label htmlFor="input-frase" className="sr-only">
-          Clique para digitar ou colar sua frase da sorte
-        </Label>
-        <Label htmlFor="input-frase">
-          <PenIcon />
-        </Label>
-        <Textarea
-          id="input-frase"
-          className="h-32 border-none text-2xl text-center shadow-none focus-visible:ring-transparent"
-          placeholder={"Digite sua frase da sorte aqui..."}
-          onChange={(e) => {
-            setPhrase(e.target.value);
-            if (moreNumbers > 0) setMoreNumbers(0);
-          }}
-        />
-        <div className="absolute bottom-10 flex flex-row gap-1 my-auto">
+      <div className="grid grid-rows-[1fr_auto] h-full">
+        <div className="grow my-auto w-full items-center justify-center">
+          <Label htmlFor="input-frase" className="sr-only">
+            Clique para digitar ou colar sua frase da sorte
+          </Label>
+          <Label
+            htmlFor="input-frase"
+            className="mb-2 flex flex-row w-full justify-center"
+          >
+            <PenIcon />
+          </Label>
+          <Textarea
+            id="input-frase"
+            className="border-none grow min-h-52 text-2xl text-center shadow-none focus-visible:ring-transparent"
+            placeholder={"Digite sua frase da sorte aqui..."}
+            onChange={(e) => {
+              setPhrase(e.target.value);
+              if (moreNumbers > 0) setMoreNumbers(0);
+            }}
+          />
+        </div>
+        <footer className="flex flex-none w-full h-fit mt-auto mb-10 px-4 items-end justify-center gap-1">
           <Select
             onValueChange={(value) => {
               setGameName(value as GameName);
@@ -136,7 +138,7 @@ export default function Home() {
           >
             Gerar números
           </Button>
-        </div>
+        </footer>
       </div>
     </main>
   );
