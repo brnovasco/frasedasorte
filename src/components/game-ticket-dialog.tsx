@@ -1,4 +1,4 @@
-import { CopyIcon } from "lucide-react";
+import { CopyIcon, DownloadIcon, ExternalLinkIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -54,6 +54,21 @@ export function GameTicketDialog({
     }
   }
 
+  function handleCopy() {
+    navigator.clipboard.writeText(generatedNumbers.join(", "));
+  }
+
+  function handleShare() {
+    const gameUrl = "https://frasedasorte.vercel.app/";
+    const copyableText = `
+    ${gameName} ${
+      moreNumbers > 0 ? `(+${moreNumbers})` : ""
+    } - "${phrase}" - ${generatedNumbers.join(
+      ", "
+    )} - faça a sua frase em: ${gameUrl}`;
+    navigator.clipboard.writeText(copyableText);
+  }
+
   const gameParams = GAMES.find((game) => game.name === gameName);
 
   if (!gameParams) {
@@ -89,27 +104,30 @@ export function GameTicketDialog({
             <Button
               variant={`ghost`}
               size={"icon"}
-              className="size-4 text-gray-500"
-              onClick={() => {
-                const copyableText = `
-                ${gameName} ${
-                  moreNumbers > 0 ? `(+${moreNumbers})` : ""
-                } - "${phrase}" - ${generatedNumbers.join(", ")}`;
-                navigator.clipboard.writeText(copyableText);
-              }}
+              className="size-4 text-gray-500 hover:bg-current"
+              onClick={handleCopy}
             >
               <CopyIcon />
             </Button>
           </div>
           <GameNumbersGrid gameName={gameName} numbers={generatedNumbers} />
         </DialogDescription>
-        <DialogFooter className="flex flex-row justify-between">
+        <DialogFooter className="flex flex-row justify-center items-center gap-2 mt-4">
           <Button
             variant={`default`}
-            className="bg-accent text-white w-full"
+            className="bg-accent text-white w-1/2"
             onClick={saveToDb}
           >
             Salvar
+            <DownloadIcon className="ml-2 h-4" />
+          </Button>
+          <Button
+            variant={`default`}
+            className="bg-green-800 text-white w-1/2"
+            onClick={handleShare}
+          >
+            Compartilhar
+            <ExternalLinkIcon className="ml-2 h-4" />
           </Button>
         </DialogFooter>
       </DialogContent>
